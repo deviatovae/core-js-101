@@ -19,8 +19,8 @@
  *   5, 10 => 50
  *   5, 5  => 25
  */
-function getRectangleArea(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleArea(width, height) {
+  return (width * height);
 }
 
 
@@ -35,8 +35,8 @@ function getRectangleArea(/* width, height */) {
  *   3.14 => 19.729201864543903
  *   0    => 0
  */
-function getCircleCircumference(/* radius */) {
-  throw new Error('Not implemented');
+function getCircleCircumference(radius) {
+  return (2 * Math.PI * radius);
 }
 
 /**
@@ -51,9 +51,13 @@ function getCircleCircumference(/* radius */) {
  *  10, 0  => 5
  *  -3, 3  => 0
  */
-function getAverage(/* value1, value2 */) {
-  throw new Error('Not implemented');
+function getAverage(value1, value2) {
+  if (Math.abs(value1) === Number.MAX_VALUE || Math.abs(value2) === Number.MAX_VALUE) {
+    return (value1 / 2) + (value2 / 2) + (((value1 % 2) + (value2 % 2)) / 2);
+  }
+  return (value1 + value2) / 2;
 }
+
 
 /**
  * Returns a distance between two points by cartesian coordinates.
@@ -125,8 +129,8 @@ function getAngleBetweenVectors(/* x1, y1, x2, y2 */) {
  *     5     => 5
  *     0     => 0
  */
-function getLastDigit(/* value */) {
-  throw new Error('Not implemented');
+function getLastDigit(value) {
+  return value % 10;
 }
 
 
