@@ -498,17 +498,17 @@ function distinct(arr) {
  * @return {Map}
  *
  * @example
- *   group([
- *      { country: 'Belarus', city: 'Brest' },
- *      { country: 'Russia', city: 'Omsk' },
- *      { country: 'Russia', city: 'Samara' },
- *      { country: 'Belarus', city: 'Grodno' },
- *      { country: 'Belarus', city: 'Minsk' },
- *      { country: 'Poland', city: 'Lodz' }
- *     ],
- *     item => item.country,
- *     item => item.city
- *   )
+    group([
+       /
+       { country: 'Russia', city: 'Omsk' },
+       { country: 'Russia', city: 'Samara' },
+       { country: 'Belarus', city: 'Grodno' },
+       { country: 'Belarus', city: 'Minsk' },
+       { country: 'Poland', city: 'Lodz' }
+      ],
+      item => item.country,
+      item => item.city
+    )
  *            =>
  *   Map {
  *    "Belarus" => ["Brest", "Grodno", "Minsk"],
@@ -516,10 +516,16 @@ function distinct(arr) {
  *    "Poland" => ['Lodz']
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  return array.reduce((map, item) => {
+    const key = keySelector(item);
+    const value = valueSelector(item);
+    const values = map.get(key) || [];
+    values.push(value);
+    map.set(key, values);
+    return map;
+  }, new Map());
 }
-
 
 /**
  * Projects each element of the specified array to a sequence
@@ -534,10 +540,9 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], (x) => x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  return arr.reduce((acc, el) => [...acc, ...childrenSelector(el)], []);
 }
-
 
 /**
  * Returns an element from the multidimensional array by the specified indexes.
@@ -551,10 +556,9 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  return indexes.reduce((acc, el) => acc[el], arr);
 }
-
 
 /**
  * Swaps the head and tail of the specified array:
@@ -574,10 +578,13 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  const middle = Math.trunc(arr.length / 2);
+  if (arr.length > 1 && arr.length % 2) {
+    return [...arr.slice(middle + 1), arr[middle], ...arr.slice(0, middle)];
+  }
+  return [...arr.slice(middle), ...arr.slice(0, middle)];
 }
-
 
 module.exports = {
   findElement,
