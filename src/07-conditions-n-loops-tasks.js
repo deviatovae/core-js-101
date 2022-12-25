@@ -182,11 +182,13 @@ function isInsideCircle(/* circle, point */) {
  */
 function findFirstSingleChar(str) {
   const obj = {};
-  str.split('').forEach((letter) => {
-    obj[letter] = obj[letter] + 1 || 1;
-  });
+  str.split('')
+    .forEach((letter) => {
+      obj[letter] = obj[letter] + 1 || 1;
+    });
 
-  return Object.keys(obj).find((letter) => obj[letter] === 1);
+  return Object.keys(obj)
+    .find((letter) => obj[letter] === 1);
 }
 
 
@@ -199,8 +201,8 @@ function findFirstSingleChar(str) {
  *
  * @param {number} a
  * @param {number} b
- * @param {bool} isStartIncluded
- * @param {bool} isEndIncluded
+ * @param {boolean} isStartIncluded
+ * @param {boolean} isEndIncluded
  * @return {string}
  *
  * @example
@@ -212,10 +214,13 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
-}
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  const startBracket = isStartIncluded ? '[' : '(';
+  const endBracket = isEndIncluded ? ']' : ')';
+  const interval = a < b ? `${a}, ${b}` : `${b}, ${a}`;
 
+  return `${startBracket}${interval}${endBracket}`;
+}
 
 /**
  * Reverse the specified string (put all chars in reverse order)
@@ -229,8 +234,10 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('')
+    .reverse()
+    .join('');
 }
 
 
@@ -246,8 +253,11 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return parseInt((num.toString(10)
+    .split('')
+    .reverse()
+    .join('')), 10);
 }
 
 
@@ -271,8 +281,22 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const numbers = ccn.toString().split('').reverse();
+  let result = 0;
+
+  numbers.forEach((number, i) => {
+    let numToAdd = number;
+    if (i % 2 !== 0) {
+      numToAdd = number * 2;
+      if (numToAdd > 9) {
+        numToAdd -= 9;
+      }
+    }
+    result += +numToAdd;
+  });
+
+  return (result % 10) === 0;
 }
 
 /**
@@ -289,8 +313,9 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const sum = num.toString().split('').reduce((acc, n) => acc + +n, 0);
+  return sum > 9 ? getDigitalRoot(sum) : sum;
 }
 
 
@@ -315,10 +340,28 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const stack = [];
+  if (!str) {
+    return true;
+  }
+  const result = str.split('')
+    .every((el) => {
+      if (el === '}') {
+        if (stack.pop() !== '{') return false;
+      } else if (el === '>') {
+        if (stack.pop() !== '<') return false;
+      } else if (el === ']') {
+        if (stack.pop() !== '[') return false;
+      } else if (el === ')') {
+        if (stack.pop() !== '(') return false;
+      } else {
+        stack.push(el);
+      }
+      return true;
+    });
+  return result && !stack.length;
 }
-
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
