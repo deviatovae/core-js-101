@@ -281,8 +281,8 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(ccn) {
-  const numbers = ccn.toString().split('').reverse();
+function isCreditCardNumber(cnn) {
+  const numbers = cnn.toString().split('').reverse();
   let result = 0;
 
   numbers.forEach((number, i) => {
@@ -313,8 +313,8 @@ function isCreditCardNumber(ccn) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(num) {
-  const sum = num.toString().split('').reduce((acc, n) => acc + +n, 0);
+function getDigitalRoot(n) {
+  const sum = n.toString().split('').reduce((acc, num) => acc + +num, 0);
   return sum > 9 ? getDigitalRoot(sum) : sum;
 }
 
